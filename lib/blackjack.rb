@@ -34,57 +34,50 @@ class Game
     @p2_hand_score += p2_card.card_worth
     player_two_hand_draw
 
-    #While loop while user gets cards
-    while @user_hit
+    did_anyone_win
 
-      # Check if anyone is over 21
-      if @p1_hand_score > 21 || @p2_hand_score > 21
-        @winner = @p2.name
-        puts "#{@winner} wins! You went over!"
-        @user_hit = false
-      elsif @p1_hand_score > 21 && @p2_hand_score <= 21
-        @p2_total_score += 1
-        @winner = @p2.name
-        puts "#{@winner} wins! with #{@p2_hand_score} points!"
-        @user_hit = false
-      elsif @p1_hand_score <= 21 && @p2_hand_score > 21
-        @p1_total_score += 1
-        @winner = @p1.name
-        puts "#{@winner} wins!"
-        @user_hit = false
-      # check if anyone hit 21
-      elsif @p1_hand_score == 21
-        @p1_total_score += 1
-        @winner = @p1.name
-        puts "#{@winner} wins!"
-        @user_hit = false
-      elsif @p2_hand_score == 21
-        @p2_total_score += 1
-        @winner = @p2.name
-        puts "#{@winner} wins! with #{@p2_hand_score} points!"
-        @user_hit = false
+    while @winner == ""
+      @user_hit = check_if_user_will_hit
+
+      if @user_hit
+        puts "Your current hand value: #{@p1_hand_score}"
+        display_p2_hand(@p2.hand)
+        did_anyone_win
       end
 
-      # Continue game if no one has won
-      if @p1_hand_score < 21 && @p2_hand_score < 21
+      break if @winner != ""
 
-        # Hal will take another card if his value is less than 16
-        check_p2_hand(@p2_hand_score)
+      if @p2_hand_score < 16
+        p2_card = @deck.draw
+        @p2.add_to_hand(p2_card) #add card to player's hand
+        @p2_hand_score += p2_card.card_worth #add card value to current round
+        did_anyone_win
+      end
 
-        # User will decide to hit or not
-        @user_hit = check_if_user_will_hit
+      break if @winner != ""
 
-        if !@user_hit && @p1_hand_score <= 16 || @p1_hand_score <= @p2_hand_score
-          @p2_total_score += 1
-          @winner = @p2.name
-          puts "#{@winner} wins! with #{@p2_hand_score} points!"
-        else
-          @p1_total_score += 1
+      did_anyone_win
+
+      break if @winner != ""
+
+      if !@user_hit && @p2_hand_score >= 16
+        if @p1_hand_score > @p2_hand_score && @p1_hand_score < 22
           @winner = @p1.name
-          puts "#{@winner} wins!"
+        elsif @p2_hand_score > @p1_hand_score && @p2_hand_score < 22
+          @winner = @p2.name
         end
       end
     end
+
+    if @winner = @p1.name
+      puts "Congrats to #{@winner}! You won!"
+      puts "Dealer count: #{@p2_hand_score}"
+      puts "Good Bye"
+    else
+      puts "Looks like #{@winner} won with #{@p2_hand_score} points."
+      puts "Good Bye"
+    end
+
   end
 
   def opener
@@ -142,6 +135,20 @@ class Game
       choice = true
     end
     return choice
+  end
+
+  def did_anyone_win
+    if @p1_hand_score == 21
+      @winner = @p1.name #user wins
+    elsif @p1_hand_score > 21
+      @winner = @p2.name #comp wins
+    else #user is < 21
+      if @p2_hand_score == 21
+        @winner = @p2.name #comp wins
+      elsif @p2_hand_score > 21
+        @winner = @p2.name #user wins
+      end
+    end
   end
 end
 
