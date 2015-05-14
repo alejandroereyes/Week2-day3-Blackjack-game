@@ -62,15 +62,7 @@ class Game
       end
     end
 
-    if @winner = @p1.name
-      puts "Congrats to #{@winner}! You won!"
-      puts "Dealer count: #{@p2_hand_score}"
-      puts "Good Bye"
-    elsif @winner = @p2.name
-      puts "Looks like #{@winner} won with #{@p2_hand_score} points."
-      puts "Good Bye"
-    end
-
+    display_winner
   end
 
   def opener
@@ -128,6 +120,17 @@ class Game
       choice = true
     end
     return choice
+  end
+
+  def display_winner
+    if @winner = @p1.name
+      puts "Congrats to #{@winner}! You won!"
+      puts "Dealer count: #{@p2_hand_score}"
+      puts "Good Bye"
+    elsif @winner = @p2.name
+      puts "Looks like #{@winner} won with #{@p2_hand_score} points."
+      puts "Good Bye"
+    end
   end
 
   def did_anyone_win
