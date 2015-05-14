@@ -32,11 +32,10 @@ class Game
 
     did_anyone_win
 
-    while @winner == ""
+    while @winner == "" #contiue to play until there is a winner
       @user_hit = check_if_user_will_hit
 
       if @user_hit
-        puts "Your current hand value: #{@p1_hand_score}"
         display_p2_hand(@p2.hand)
         did_anyone_win
       end
@@ -44,9 +43,7 @@ class Game
       break if @winner != ""
 
       if @p2_hand_score < 16
-        p2_card = @deck.draw
-        @p2.add_to_hand(p2_card) #add card to player's hand
-        @p2_hand_score += p2_card.card_worth #add card value to current round
+        check_p2_hand # dealer will take card if hand score less than 16
         did_anyone_win
       end
 
@@ -107,7 +104,7 @@ class Game
 
   def display_p2_hand(hand)
     puts "---Dealer's Hand Below---"
-    hand[0].display_card
+    hand[0].display_card #only dealer's top card will show
   end
 
   def check_p2_hand(p2_score)
@@ -120,7 +117,7 @@ class Game
 
   def more_cards
     print "Do you want to hit (y/n)? :"
-    choice = gets.chomp.downcase
+    answer = gets.chomp.downcase
   end
 
   def check_if_user_will_hit
