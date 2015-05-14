@@ -10,10 +10,6 @@ class Game
     @deck = Deck.new
     @p1_hand_score = 0
     @p2_hand_score = 0
-    @p1_score = 0
-    @p2_score = 0
-    @p1_total_score = 0
-    @p2_total_score = 0
     @winner = ""
     @user_hit = true
   end
@@ -73,7 +69,7 @@ class Game
       puts "Congrats to #{@winner}! You won!"
       puts "Dealer count: #{@p2_hand_score}"
       puts "Good Bye"
-    else
+    elsif @winner = @p2.name
       puts "Looks like #{@winner} won with #{@p2_hand_score} points."
       puts "Good Bye"
     end
@@ -138,8 +134,10 @@ class Game
   end
 
   def did_anyone_win
-    if @p1_hand_score == 21
+    if @p1_hand_score == 21 && @p2_hand_score < 21 || @p2_hand_score > 21
       @winner = @p1.name #user wins
+    elsif @p1_hand_score == 21 && @p2_hand_score == 21
+      @winner = @p2.name #comp wins in a tie
     elsif @p1_hand_score > 21
       @winner = @p2.name #comp wins
     else #user is < 21
