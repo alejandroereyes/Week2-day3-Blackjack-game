@@ -19,16 +19,16 @@ class Game
     opener
 
     # User is player one, initial draw is two cards
-    p1_card = @deck.draw
-    @p1.add_to_hand(p1_card)
-    @p1_hand_score += p1_card.card_worth
-    player_one_hand_draw
+    p1_card = @deck.draw # Draw card
+    @p1.add_to_hand(p1_card) # Add card to hand
+    @p1_hand_score += p1_card.card_worth #Add card worth to hand score
+    player_one_hand_draw # Draws one card, adds to hand & score, and displays to console
 
     # Computer is player two, initial draw is two cards
-    p2_card = @deck.draw
-    @p2.add_to_hand(p2_card)
-    @p2_hand_score += p2_card.card_worth
-    player_two_hand_draw
+    p2_card = @deck.draw # Draw card
+    @p2.add_to_hand(p2_card) # Add card to hand
+    @p2_hand_score += p2_card.card_worth #Add card worth to hand score
+    player_two_hand_draw # Draws one card, adds to hand & score, and displays to console
 
     did_anyone_win
 
@@ -43,7 +43,7 @@ class Game
       break if @winner != ""
 
       if @p2_hand_score < 16
-        check_p2_hand # dealer will take card if hand score less than 16
+        check_p2_hand(@p2_hand_score) # dealer will take card if hand score less than 16
         did_anyone_win
       end
 
@@ -52,7 +52,6 @@ class Game
       did_anyone_win
 
       break if @winner != ""
-
       if !@user_hit && @p2_hand_score >= 16
         if @p1_hand_score > @p2_hand_score && @p1_hand_score < 22
           @winner = @p1.name
@@ -123,11 +122,11 @@ class Game
   end
 
   def display_winner
-    if @winner = @p1.name
+    if @winner == @p1.name
       puts "Congrats to #{@winner}! You won!"
       puts "Dealer count: #{@p2_hand_score}"
       puts "Good Bye"
-    elsif @winner = @p2.name
+    elsif @winner == @p2.name
       puts "Looks like #{@winner} won with #{@p2_hand_score} points."
       puts "Good Bye"
     end
@@ -140,7 +139,7 @@ class Game
       @winner = @p2.name #comp wins in a tie
     elsif @p1_hand_score > 21
       @winner = @p2.name #comp wins
-    else #user is < 21
+    elsif  @p1_hand_score < 21
       if @p2_hand_score == 21
         @winner = @p2.name #comp wins
       elsif @p2_hand_score > 21
