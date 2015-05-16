@@ -3,17 +3,30 @@ class Card
 
   def initialize(suit, value)
     @suit = suit
+    @display_suit = check_suit
     @value = value
     @card_worth = blackjack_value
   end
 
   def display_card
-    puts "
+    print "
      ___________
     |           |
-    | #{suit}     |
+    | #{@display_suit}   |
     | #{value}         |
     |___________|"
+  end
+
+  def check_suit
+    if @suit == :hearts
+     return  "♡ ♡ ♡ ♡"
+    elsif @suit == :spades
+     return "♤ ♤ ♤ ♤"
+    elsif @suit == :clubs
+     return "♧ ♧ ♧ ♧"
+    elsif @suit == :diamonds
+      return "♢ ♢ ♢ ♢"
+    end
   end
 
   def blackjack_value
