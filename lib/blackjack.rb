@@ -17,13 +17,13 @@ class Game
   def start
     # A pleasant greeting for all who enter
     opener
-    sleep(1)
+    sleep(0.5)
     opener2
-    sleep(1)
+    sleep(0.5)
     opener
-    sleep(1)
+    sleep(0.5)
     opener2
-    sleep(1)
+    sleep(0.5)
     opener
 
     # User is player one, initial draw is two cards
